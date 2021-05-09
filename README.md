@@ -20,7 +20,7 @@ All of the remaining JavaScript
 
 I have the APIs and my access key from OpenWeatherMap.org but need to set up the API connections, etc.
 
-- Access Key: db0bba3ceabf7ca8a120908817237044
+- Access Key: xxx
 
 - One Call API : https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
   - Which includes some needed details not in the weather by City Name API.
