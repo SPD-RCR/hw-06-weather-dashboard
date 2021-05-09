@@ -11,6 +11,7 @@ ID tags have been assigned to the various fields, buttons, etc.
 
 The related Variables for the ID tags have been set up in the scripts.js file
 
+https://spd-rcr.github.io/hw-06-weather-dashboard/assets/Weather%20Dashboard%20-%20HTML%20CSS%20layout.png
 (./assets/Weather Dashboard - HTML CSS layout.png)
 
 # TBD (ASAP)
