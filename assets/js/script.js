@@ -1,4 +1,4 @@
-var cityName = document.getElementById("userInputCity");
+var userInputCity = document.getElementById("userInputCity");
 var searchButton = document.getElementById("searchButton");
 var previousCities = document.getElementById("previousCities");
 
@@ -9,35 +9,31 @@ var wind0 = document.getElementById("wind0");
 var humidity0 = document.getElementById("humidity0");
 var uv0 = document.getElementById("uv0");
 
-          console.log("set variables:", "Yes");
-
 var formSubmitHandler = function (event) {
     event.preventDefault();
 
-    var userInputCity = cityName.value.trim();
-          console.log("userInputCity 18:", userInputCity);
-    if (userInputCity) {
-      console.log("if userInputCity", userInputCity);
-      getCityNameWeather(userInputCity);
-          console.log("if getCityNameWeather:", userInputCity);
-      cityName.value = '';
+    var cityName = userInputCity.value.trim();
+          console.log("cityName 16:", cityName);
+    if (cityName) {
+      getCityNameWeather(cityName);
+          console.log("if getCityNameWeather:", cityName);
+      userInputCity.value = '';
     } else {
       alert('Please enter a City name');
     }
   };
 
-var getCityNameWeather = function (city) {
-  
-  var apiCityUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + city + '&appid=' + 'db0bba3ceabf7ca8a120908817237044';
+var getCityNameWeather = function (cityName) {
+  // Current Weather API
+  var apiCityUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=' + 'db0bba3ceabf7ca8a120908817237044';
                     console.log("apiCityUrl: ", apiCityUrl);
     fetch(apiCityUrl)
-                    // console.log("fetch apiCityUrl:", apiCityUrl)
     .then(function (response) {
       if (response.ok) {
-                    console.log("fetch if response:", response)
+                    console.log("fetch apiCityUrl if response:", response)
         response.json().then(function (data) {
-                    console.log("fetch response json data:", data)
-        displayUserCityWeather (data, city);
+                    console.log("fetch apiCityUrl response json data:", data)
+        displayUserCityWeather (data, cityName);
         });
       } else {
         alert('Error: ' + response.statusText);
@@ -48,26 +44,75 @@ var getCityNameWeather = function (city) {
     });
 };
 
-var displayUserCityWeather = function (userCityWeather, userInputCity) {
+var displayUserCityWeather = function (userCityWeather, cityName) {
     if (userCityWeather.length === 0) {
         userCityWeatherContainerEl.textContent = 'No weather data found.';
       // Without a `return` statement, the rest of this function will continue to run and perhaps throw an error if `repos` is empty
       return;
     }
   
-    userCity.textContent = userInputCity;
-    weatherIcon0.setAttribute("src",`https://openweathermap.org/img/w/${userCityWeather.weather[0].icon}.png`);
-    temp0.textContent = userCityWeather.main.temp;
-    wind0.textContent = userCityWeather.wind.speed;
-    humidity0.textContent = userCityWeather.main.humidity;
-    //uv.textContent = userCityWeather.; look at 14 day api
+    // var city = cityName;
+    // console.log('cityName8:', city);
+    // var lat = userCityWeather.coord.lat;
+    // console.log("var LAT:", lat);
+    // var lon = userCityWeather.coord.lon;
+    // console.log("var LON:", lon);
+    // var cityLonLat = userCityWeather.coord;
+    // console.log('var cityLONLAT:', cityLonLat)
 
-    for (let i = 0; i < userCityWeather.length; i++) {
+    getCityLatLonWeather (userCityWeather, cityName);
+  };
+
+  var getCityLatLonWeather = function(userCityWeather, cityName) {
+    var lat = userCityWeather.coord.lat;
+    console.log('lat:', lat)
+    var lon = userCityWeather.coord.lon;
+    console.log('lon:', lon)
+    // One Call API
+    var apiCityLatLonUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&appid=' + 'db0bba3ceabf7ca8a120908817237044';
+      console.log("apiCityLatLonUrl: ", apiCityLatLonUrl);
+      console.log("cityName72: ", cityName);
+
+      fetch(apiCityLatLonUrl)
+      .then(function (response) {
+        if (response.ok) {
+                      console.log("fetch if response:", response)
+          response.json().then(function (data) {
+                      console.log("fetch response json data:", data)
+                      console.log("cityName82:", cityName)
+          displayUserCityLatLonWeather (data, cityName);
+          });
+        } else {
+          alert('Error: ' + response.statusText);
+      }
+      })
+      .catch(function (error) {
+      alert('Unable to connect to Weather API');
+      });
+  };
+
+  var displayUserCityLatLonWeather = function (userCityLatLonWeather, cityName) {
+    if (userCityLatLonWeather.length === 0) {
+        userCity.textContent = 'No weather data found.';
+      // Without a `return` statement, the rest of this function will continue to run and perhaps throw an error if `repos` is empty
+      return;
+    }
+  
+    userCity.textContent = cityName;
+    weatherIcon0.setAttribute("src",`https://openweathermap.org/img/w/${userCityLatLonWeather.current.weather[0].icon}.png`);
+    temp0.textContent = userCityLatLonWeather.current.temp;
+    wind0.textContent = userCityLatLonWeather.current.windspeed;
+    humidity0.textContent = userCityLatLonWeather.current.humidity;
+    uv0.textContent = userCityLatLonWeather.current.uvi; 
+
+    for (let i = 0; i < userCityLatLonWeather.length; i++) {
       //const element = UserCityWeather[i];
 
-      userCity.textContent = userCityWeather[i].name;
-      console.log("userCity", userCity.textContent);
-      
+      // userCity.textContent = userCityLatLonWeather[i].name;
+      // console.log("userCity", userCity.textContent);
+
+      temp.textContent = userCityLatLonWeather[i].temp;
+      console.log("TEST:", "TEST")
     }
   };
 
