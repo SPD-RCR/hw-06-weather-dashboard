@@ -33,7 +33,8 @@ var getCityNameWeather = function (cityName) {
                     console.log("fetch apiCityUrl if response:", response)
         response.json().then(function (data) {
                     console.log("fetch apiCityUrl response json data:", data)
-        displayUserCityWeather (data, cityName);
+        // displayUserCityWeather (data, cityName);
+        getCityLatLonWeather (data, cityName);
         });
       } else {
         alert('Error: ' + response.statusText);
@@ -44,24 +45,24 @@ var getCityNameWeather = function (cityName) {
     });
 };
 
-var displayUserCityWeather = function (userCityWeather, cityName) {
-    if (userCityWeather.length === 0) {
-        userCityWeatherContainerEl.textContent = 'No weather data found.';
-      // Without a `return` statement, the rest of this function will continue to run and perhaps throw an error if `repos` is empty
-      return;
-    }
+// var displayUserCityWeather = function (userCityWeather, cityName) {
+//     if (userCityWeather.length === 0) {
+//         userCityWeatherContainerEl.textContent = 'No weather data found.';
+//       // Without a `return` statement, the rest of this function will continue to run and perhaps throw an error if `repos` is empty
+//       return;
+//     }
   
-    // var city = cityName;
-    // console.log('cityName8:', city);
-    // var lat = userCityWeather.coord.lat;
-    // console.log("var LAT:", lat);
-    // var lon = userCityWeather.coord.lon;
-    // console.log("var LON:", lon);
-    // var cityLonLat = userCityWeather.coord;
-    // console.log('var cityLONLAT:', cityLonLat)
+//     // var city = cityName;
+//     // console.log('cityName8:', city);
+//     // var lat = userCityWeather.coord.lat;
+//     // console.log("var LAT:", lat);
+//     // var lon = userCityWeather.coord.lon;
+//     // console.log("var LON:", lon);
+//     // var cityLonLat = userCityWeather.coord;
+//     // console.log('var cityLONLAT:', cityLonLat)
 
-    getCityLatLonWeather (userCityWeather, cityName);
-  };
+//     getCityLatLonWeather (userCityWeather, cityName);
+//   };
 
   var getCityLatLonWeather = function(userCityWeather, cityName) {
     var lat = userCityWeather.coord.lat;
@@ -69,7 +70,7 @@ var displayUserCityWeather = function (userCityWeather, cityName) {
     var lon = userCityWeather.coord.lon;
     console.log('lon:', lon)
     // One Call API
-    var apiCityLatLonUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&appid=' + 'db0bba3ceabf7ca8a120908817237044';
+    var apiCityLatLonUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&appid=' + 'db0bba3ceabf7ca8a120908817237044';
       console.log("apiCityLatLonUrl: ", apiCityLatLonUrl);
       console.log("cityName72: ", cityName);
 
@@ -101,7 +102,7 @@ var displayUserCityWeather = function (userCityWeather, cityName) {
     userCity.textContent = cityName;
     weatherIcon0.setAttribute("src",`https://openweathermap.org/img/w/${userCityLatLonWeather.current.weather[0].icon}.png`);
     temp0.textContent = userCityLatLonWeather.current.temp;
-    wind0.textContent = userCityLatLonWeather.current.windspeed;
+    wind0.textContent = userCityLatLonWeather.current.wind_speed;
     humidity0.textContent = userCityLatLonWeather.current.humidity;
     uv0.textContent = userCityLatLonWeather.current.uvi; 
 
